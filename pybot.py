@@ -1,3 +1,10 @@
+def len_command(command):
+    cmd, text = command.split()
+    length = len(text)
+    response = '文字ノ長サハ {} 文字デス'.format(length)
+    return response
+    
+
 def heisei_command(command):   
     heisei, year_str = command.split()
     year = int(year_str)
@@ -7,7 +14,7 @@ def heisei_command(command):
     else:
         response = '西暦{}年ハ、平成デハアリマセン'.format(year)
     return response    
-    
+
 command_file = open("pybot.txt", encoding="utf-8")
 raw_data = command_file.read()
 command_file.close()
@@ -27,8 +34,11 @@ while True:
         if message in command:
             response = bot_dict[message]
             break
-        if "平成" in command:
-            response = heisei_command(command)
+
+    if "平成" in command:
+        response = heisei_command(command)
+    if '長さ' in command:
+        response = len_command(command)
                 
     
     if not response:
