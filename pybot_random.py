@@ -10,3 +10,4 @@ def dice_command():
     num = random.randrange(1, 7)
     response = '「{}」ガ出マシタ'.format(num)
     return response
+    
