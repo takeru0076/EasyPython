@@ -10,14 +10,14 @@ def len_command(command):
     
 def heisei_command(command):   
     heisei, year_str = command.split()
-    try:
+    if year_str.isdigit():
         year = int(year_str)
         if year >= 1989:
             heisei_year = year - 1988
             response = '西暦{}年ハ,平成{}年デス'.format(year,heisei_year)
         else:
             response = '西暦{}年ハ、平成デハアリマセン'.format(year)
-    except ValueError:
+    else:
         response = '数値ヲ指定シテクダサイ'
     return response
 
@@ -36,31 +36,37 @@ for line in lines:
 while True:
     command = input('pybot> ')
     response = ""
-    for message in bot_dict:
-        if message in command:
-            response = bot_dict[message]
+    try:
+        for message in bot_dict:
+            if message in command:
+                response = bot_dict[message]
+                break
+            
+        if "平成" in command:
+            response = heisei_command(command)
+        if "長さ" in command:
+            response = len_command(command)
+        if "干支" in command:
+            response = eto_command(command)        
+        if '選ぶ' in command:
+            response = choice_command(command)
+        if 'さいころ' in command:
+            response = dice_command()
+        if '今日' in command:
+            response = today_command()
+        if '現在' in command:
+            response = now_command()
+        if '曜日' in command:
+            response = weekday_command(command)
+            
+        if not response:
+            response = 'ナニヲイッテルノカワカラナイ'
+        print(response)
+        
+        if "さようなら" in command:
             break
-
-    if "平成" in command:
-        response = heisei_command(command)
-    if "長さ" in command:
-        response = len_command(command)
-    if "干支" in command:
-        response = eto_command(command)        
-    if '選ぶ' in command:
-        response = choice_command(command)
-    if 'さいころ' in command:
-        response = dice_command()
-    if '今日' in command:
-        response = today_command()
-    if '現在' in command:
-        response = now_command()
-    if '曜日' in command:
-        response = weekday_command(command) 
-    
-    if not response:
-        response = 'ナニヲイッテルノカワカラナイ'
-    print(response)
-
-    if "さようなら" in command:
-        break
+        
+    except Exception as e:
+        print('予期セヌ エラーガ 発生シマシタ')
+        print('* 種類:', type(e))
+        print('* 内容:', e)
