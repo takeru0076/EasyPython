@@ -1,6 +1,8 @@
 from pybot_eto import eto_command
 from pybot_random import choice_command, dice_command
 from pybot_datetime import today_command, now_command, weekday_command
+#from pybot_weather import weather_command
+from pybot_wikipedia import wikipedia_command
 
 def len_command(command):
     cmd, text = command.split()
@@ -58,6 +60,12 @@ while True:
             response = now_command()
         if '曜日' in command:
             response = weekday_command(command)
+        #if '天気' in command:
+            #response = weather_command()
+        if '事典' in command:
+            response =  wikipedia_command(command)
+            
+            
             
         if not response:
             response = 'ナニヲイッテルノカワカラナイ'
